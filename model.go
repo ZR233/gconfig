@@ -9,6 +9,7 @@ type Sql struct {
 	Password string `yaml:"password"`
 	Port     int    `yaml:"port"`
 	User     string `yaml:"user"`
+	DBName   string `yaml:"-"`
 }
 
 type Redis struct {
