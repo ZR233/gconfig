@@ -1,1 +1,2 @@
 # gconfig
+support consul
