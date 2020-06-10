@@ -16,6 +16,7 @@ type Redis struct {
 	Password   string   `yaml:"password"`
 	Addrs      []string `yaml:"addrs"`
 	Mastername string   `yaml:"mastername"`
+	DB         int      `yaml:"-"`
 }
 
 type Zookeeper struct {
