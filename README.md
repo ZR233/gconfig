@@ -1,6 +1,7 @@
 # gconfig 配置中心
 ## 支持存储
 - consul
+
 ##使用方法
 ```
 import (
