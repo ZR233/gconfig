@@ -1,17 +1,19 @@
-package gconfig
+package test
 
 import (
+	"github.com/ZR233/gconfig"
+	"github.com/ZR233/gconfig/consul"
 	"testing"
 )
 
 func TestNewConfig(t *testing.T) {
-	db, err := NewDBConsul(nil)
+	db, err := consul.NewDBConsul(nil)
 	if err != nil {
 		t.Error(err)
 		return
 	}
 
-	cfg := NewConfig(db)
+	cfg := gconfig.NewConfig(db)
 	p, err := cfg.GetPostgreSQL()
 	println(p, err)
 	r, err := cfg.GetRedis()

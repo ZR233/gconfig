@@ -1,4 +1,4 @@
-package gconfig
+package consul
 
 import (
 	"github.com/hashicorp/consul/api"
@@ -18,7 +18,7 @@ func (d *DBConsul) Unmarshal(keyPath string, o interface{}) (err error) {
 	return
 }
 
-func NewDBConsul(cfg *api.Config) (DB DB, err error) {
+func NewDBConsul(cfg *api.Config) (DB *DBConsul, err error) {
 	if cfg == nil {
 		cfg = api.DefaultConfig()
 		cfg.Address = "localhost:8500"
