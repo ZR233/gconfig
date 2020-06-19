@@ -8,6 +8,7 @@ import (
 	"github.com/ZR233/gconfig"
 	"github.com/ZR233/gconfig/consul"
 ) 
+
 db, err := consul.NewDBConsul(nil)
 if err != nil {
     panic(err)
