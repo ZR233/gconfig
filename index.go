@@ -9,10 +9,10 @@ import (
 )
 
 const (
-	key_Postgresql = "common/postgresql"
-	key_Redis      = "common/redis"
-	key_Zookeeper  = "common/zookeeper"
-	key_Hbase      = "common/hbase"
+	Key_Postgresql = "common/postgresql"
+	Key_Redis      = "common/redis"
+	Key_Zookeeper  = "common/zookeeper"
+	Key_Hbase      = "common/hbase"
 )
 
 type DB interface {
@@ -30,40 +30,40 @@ func NewConfig(db DB) *Config {
 }
 
 func (c *Config) Watch(onChanged func(err error)) (err error) {
-	err = c.db.Watch(key_Postgresql, &SqlCluster{}, onChanged)
+	err = c.db.Watch(Key_Postgresql, &SqlCluster{}, onChanged)
 	if err != nil {
 		return
 	}
-	err = c.db.Watch(key_Redis, &Redis{}, onChanged)
+	err = c.db.Watch(Key_Redis, &Redis{}, onChanged)
 	if err != nil {
 		return
 	}
-	err = c.db.Watch(key_Zookeeper, &Zookeeper{}, onChanged)
+	err = c.db.Watch(Key_Zookeeper, &Zookeeper{}, onChanged)
 	if err != nil {
 		return
 	}
-	err = c.db.Watch(key_Hbase, &Hbase{}, onChanged)
+	err = c.db.Watch(Key_Hbase, &Hbase{}, onChanged)
 	return
 }
 
 func (c *Config) GetPostgreSQL() (cfg *SqlCluster, err error) {
 	cfg = &SqlCluster{}
-	err = c.db.Unmarshal(key_Postgresql, cfg)
+	err = c.db.Unmarshal(Key_Postgresql, cfg)
 	return
 }
 func (c *Config) GetRedis() (cfg *Redis, err error) {
 	cfg = &Redis{}
-	err = c.db.Unmarshal(key_Redis, cfg)
+	err = c.db.Unmarshal(Key_Redis, cfg)
 	return
 }
 func (c *Config) GetZookeeper() (cfg *Zookeeper, err error) {
 	cfg = &Zookeeper{}
-	err = c.db.Unmarshal(key_Zookeeper, cfg)
+	err = c.db.Unmarshal(Key_Zookeeper, cfg)
 	return
 }
 func (c *Config) GetHbase() (cfg *Hbase, err error) {
 	cfg = &Hbase{}
-	err = c.db.Unmarshal(key_Hbase, cfg)
+	err = c.db.Unmarshal(Key_Hbase, cfg)
 	return
 }
 
