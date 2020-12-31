@@ -123,11 +123,7 @@ func (c *Config) Unmarshal(value interface{}) (err error) {
 			return
 		}
 	} else {
-		data, err = yaml.Marshal(value)
-		if err != nil {
-			return
-		}
-		err = c.db.Set(c.savePath, data)
+		err = c.db.Set(c.savePath, value)
 		if err != nil {
 			return
 		}

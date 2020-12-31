@@ -9,13 +9,8 @@ import (
 )
 
 func TestNewConfig(t *testing.T) {
-	db, err := consul.NewDBConsul(nil)
-	if err != nil {
-		t.Error(err)
-		return
-	}
 
-	cfg := gconfig.NewConfig(db)
+	cfg := gconfig.NewConfig("test").UseConsul(nil)
 	p, err := cfg.GetPostgreSQL()
 	println(p, err)
 	r, err := cfg.GetRedis()
@@ -36,5 +31,16 @@ func TestNewConsul_Watch(t *testing.T) {
 		t.Log(fmt.Sprintf("%v", cfg))
 	})
 
+	time.Sleep(time.Minute * 10)
+}
+func TestNewConsul_Default(t *testing.T) {
+	cfg := gconfig.NewConfig("test").UseConsul(nil)
+
+	var Test struct {
+		A string
+		B string
+	}
+	err := cfg.Unmarshal(&Test)
+	println(err)
 	time.Sleep(time.Minute * 10)
 }
