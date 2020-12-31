@@ -31,7 +31,7 @@ type Config struct {
 	savePath string
 }
 
-func (c *Config) DBUserConsul(config *api.Config) *Config {
+func (c *Config) UseConsul(config *api.Config) *Config {
 	var err error
 	c.db, err = consul.NewDBConsul(config)
 	if err != nil {
@@ -40,9 +40,8 @@ func (c *Config) DBUserConsul(config *api.Config) *Config {
 	return c
 }
 
-func NewConfig(savePath string, db DB) *Config {
+func NewConfig(savePath string) *Config {
 	return &Config{
-		db:       db,
 		savePath: savePath,
 	}
 }
