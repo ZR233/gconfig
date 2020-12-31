@@ -1,4 +1,4 @@
-module github.com/ZR233/gconfig
+module github.com/ZR233/gconfig/v2
 
 go 1.14
 
