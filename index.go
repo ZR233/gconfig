@@ -3,7 +3,7 @@ package gconfig
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/samuel/go-zookeeper/zk"
+	"github.com/go-zookeeper/zk"
 	"path"
 	"time"
 )
