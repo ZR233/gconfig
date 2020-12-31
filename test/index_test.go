@@ -2,8 +2,8 @@ package test
 
 import (
 	"fmt"
-	"github.com/ZR233/gconfig"
-	"github.com/ZR233/gconfig/consul"
+	"github.com/ZR233/gconfig/v2"
+	"github.com/ZR233/gconfig/v2/consul"
 	"testing"
 	"time"
 )
