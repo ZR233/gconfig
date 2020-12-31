@@ -15,4 +15,8 @@ func TestDBConsul_Get(t *testing.T) {
 	}
 
 	println(s, h)
+
+	s, h, err = db.Get("common/test1234")
+	println(s, h)
+
 }

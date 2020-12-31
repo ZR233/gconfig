@@ -3,7 +3,11 @@ package gconfig
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/ZR233/gconfig/v2/cerr"
+	"github.com/ZR233/gconfig/v2/consul"
 	"github.com/go-zookeeper/zk"
+	"github.com/hashicorp/consul/api"
+	"gopkg.in/yaml.v2"
 	"path"
 	"time"
 )
@@ -19,14 +23,28 @@ type DB interface {
 	Unmarshal(keyPath string, o interface{}) (err error)
 	Get(keyPath string) (data []byte, version uint64, err error)
 	Watch(keyPath string, ValuePtr interface{}, onChanged func(err error)) (err error)
+	Set(keyPath string, in interface{}) (err error)
 }
 
 type Config struct {
-	db DB
+	db       DB
+	savePath string
 }
 
-func NewConfig(db DB) *Config {
-	return &Config{db: db}
+func (c *Config) DBUserConsul(config *api.Config) *Config {
+	var err error
+	c.db, err = consul.NewDBConsul(config)
+	if err != nil {
+		panic(err)
+	}
+	return c
+}
+
+func NewConfig(savePath string, db DB) *Config {
+	return &Config{
+		db:       db,
+		savePath: savePath,
+	}
 }
 
 func (c *Config) Watch(onChanged func(err error)) (err error) {
@@ -96,5 +114,25 @@ func (c *Config) GetKafkaAddrs(zkCfg *Zookeeper) (addrs []string, err error) {
 		addrs = append(addrs, fmt.Sprintf("%s:%d", node.Host, node.Port))
 	}
 
+	return
+}
+func (c *Config) Unmarshal(value interface{}) (err error) {
+	data, _, err := c.db.Get(c.savePath)
+	if len(data) > 0 {
+		err = yaml.Unmarshal(data, value)
+		if err != nil {
+			return
+		}
+	} else {
+		data, err = yaml.Marshal(value)
+		if err != nil {
+			return
+		}
+		err = c.db.Set(c.savePath, data)
+		if err != nil {
+			return
+		}
+		err = cerr.ErrConfigNotInit
+	}
 	return
 }

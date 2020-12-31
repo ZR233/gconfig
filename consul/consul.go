@@ -23,9 +23,28 @@ func (d *DBConsul) Get(keyPath string) (data []byte, version uint64, err error) 
 		return
 	}
 	version = m.LastIndex
+	if p == nil {
+		return
+	}
 	data = p.Value
 	return
 }
+func (d *DBConsul) Set(keyPath string, in interface{}) (err error) {
+	data, err := yaml.Marshal(in)
+	if err != nil {
+		return
+	}
+
+	_, err = d.client.KV().Put(&api.KVPair{
+		Key:   keyPath,
+		Value: data,
+	}, nil)
+	if err != nil {
+		return
+	}
+	return
+}
+
 func (d *DBConsul) Watch(keyPath string, o interface{}, onChanged func(err error)) (err error) {
 	p, m, err := d.client.KV().Get(keyPath, nil)
 	if err != nil {
